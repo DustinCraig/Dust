@@ -4,6 +4,7 @@
 import { GlInstance } from '../utils/gl'
 import { Shader } from '../engine/shader/index'
 import { REFRESH_RATE } from '../constants'
+import { Sprite } from './sprite/index'
 
 let rendering: boolean = false
 
@@ -19,8 +20,21 @@ export function stopRendering(): void {
   rendering = false
 }
 
+function drawSprite(sprite: Sprite) {
+  const gl = GlInstance.gl
+  gl.bindTexture(gl.TEXTURE_2D, sprite.glTexture)
+
+  /* TODO: add more logic to this */
+}
+
 function render(): void {
-  console.log('render')
+  const square: Sprite = new Sprite()
+  square.texture = 'https://webglfundamentals.org/webgl/resources/star.jpg'
+
+  /* Rendering of scene */
+  GlInstance.clear()
+
+  /**********************/
 }
 
 function renderLoop(): void {

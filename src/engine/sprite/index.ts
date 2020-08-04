@@ -9,9 +9,7 @@ export class Sprite {
   private _visible: boolean = true
   private _texture: string = ''
 
-  private _textureInternal: WebGLTexture = <WebGLTexture>(
-    GlInstance.gl.createTexture()
-  )
+  private _textureInternal: WebGLTexture = <WebGLTexture>GlInstance.gl.createTexture()
 
   constructor() {}
 
@@ -49,10 +47,7 @@ export class Sprite {
       )
       const image: HTMLImageElement = new Image()
       image.onload = () => {
-        GlInstance.gl.bindTexture(
-          GlInstance.gl.TEXTURE_2D,
-          this._textureInternal
-        )
+        GlInstance.gl.bindTexture(GlInstance.gl.TEXTURE_2D, this._textureInternal)
         GlInstance.gl.texImage2D(
           GlInstance.gl.TEXTURE_2D,
           0,
@@ -98,8 +93,12 @@ export class Sprite {
 
   set texture(t: string) {
     this._texture = t
+    this.createTexture()
   }
   get texture() {
     return this._texture
+  }
+  get glTexture() {
+    return this._textureInternal
   }
 }

@@ -1,3 +1,4 @@
+import { Shader } from './../engine/shader/index'
 export class GlInstance {
   private static canvasId: string = 'glCanvas'
   public static gl: WebGL2RenderingContext = GlInstance.init()
@@ -5,6 +6,10 @@ export class GlInstance {
   private static init(): WebGL2RenderingContext {
     const canvas = <HTMLCanvasElement>document.getElementById(this.canvasId)
     GlInstance.gl = <WebGL2RenderingContext>canvas.getContext('webgl2')
+
+    /* Create/compile predefined shaders */
+    // GlInstance.staticSpriteShader = new Shader()
+    /*************************************/
     return GlInstance.gl
   }
 
