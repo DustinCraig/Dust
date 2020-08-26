@@ -36,7 +36,22 @@ function render(): void {
   /* Rendering of scene */
   GlInstance.clear()
   gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
-  //  gl.enableVertexAttribArray()
+  gl.enableVertexAttribArray(
+    square.shader.attributeLocations?.position
+      ? square.shader.attributeLocations.position
+      : 0
+  )
+  gl.vertexAttribPointer(
+    square.shader.attributeLocations?.position
+      ? square.shader.attributeLocations.position
+      : 0,
+    2,
+    gl.FLOAT,
+    false,
+    0,
+    0
+  )
+  gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
   /**********************/
 }
 
@@ -66,7 +81,7 @@ function renderLoop(): void {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad), gl.STATIC_DRAW)
 
   /* Put a textured quad in the buffer  */
-  const texBuffer: WebGLBuffer | null = gl.createBuffer()
+  // const texBuffer: WebGLBuffer | null = gl.createBuffer()
   if (!texBuffer) return
   gl.bindBuffer(GlInstance.gl.ARRAY_BUFFER, texBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad), gl.STATIC_DRAW)
