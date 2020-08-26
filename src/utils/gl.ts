@@ -1,7 +1,6 @@
 import { Shader } from './../engine/shader/index'
 export class GlInstance {
   private static canvasId: string = 'glCanvas'
-  public static gl: WebGL2RenderingContext = GlInstance.init()
 
   private static init(): WebGL2RenderingContext {
     const canvas = <HTMLCanvasElement>document.getElementById(this.canvasId)
@@ -12,6 +11,10 @@ export class GlInstance {
     /*************************************/
     return GlInstance.gl
   }
+
+  private _quadBuffer!: WebGLBuffer | null
+
+  public static gl: WebGL2RenderingContext = GlInstance.init()
 
   public static clear(): void {
     this.gl.clearColor(1, 0, 0, 1)
@@ -26,6 +29,8 @@ export class GlInstance {
     canvas.height = h
     this.gl.viewport(0, 0, w, h)
   }
+
+  public static quadBuffer: WebGLBuffer | null = GlInstance.gl.createBuffer()
 }
 
 export const gl = GlInstance.gl

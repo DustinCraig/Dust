@@ -16,6 +16,10 @@ module.exports = {
           name: 'assets/[name].[ext]',
         },
       },
+      {
+        test: /\.(glsl|vs|fs)$/,
+        loader: 'ts-shader-loader',
+      },
     ],
   },
   resolve: {

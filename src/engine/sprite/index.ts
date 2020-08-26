@@ -1,5 +1,9 @@
+import { Shader } from './../shader/index'
 import { GlInstance } from './../../utils/gl'
 import { vec2 } from './../math/vector'
+import staticSpriteVertex from './staticSpriteVertex.glsl'
+import staticSpriteFragment from './staticSpriteFragment.glsl'
+
 /* Sprite needs a position, size and texture */
 
 export class Sprite {
@@ -8,7 +12,7 @@ export class Sprite {
   private _size: vec2 = [0, 0]
   private _visible: boolean = true
   private _texture: string = ''
-
+  private _shader: Shader = new Shader(staticSpriteVertex, staticSpriteFragment)
   private _textureInternal: WebGLTexture = <WebGLTexture>GlInstance.gl.createTexture()
 
   constructor() {}
@@ -100,5 +104,13 @@ export class Sprite {
   }
   get glTexture() {
     return this._textureInternal
+  }
+
+  set shader(s: Shader) {
+    this._shader = s
+    /* TODO: compile this? */
+  }
+  get shader() {
+    return this._shader
   }
 }

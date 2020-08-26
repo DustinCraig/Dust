@@ -1,17 +1,19 @@
 /* Shader generator */
 import { GlInstance } from '../../utils/gl'
-import {
-  POSITION_ATTRIBUTE_LOCATION,
-  TEXTURE_ATTRIBUTE_LOCATION,
-} from './../../constants'
+import { POSITION_ATTRIBUTE_LOCATION, TEXTURE_ATTRIBUTE_LOCATION } from './../../constants'
 import { UniformLocations } from './uniforms'
+import { AttributeLocations } from './attributes'
 import { mat3 } from '../math/matrix'
 
 function getStandardUniformLocations(program: WebGLProgram): UniformLocations {
   return {
-    modelMatrix: <WebGLUniformLocation>(
-      GlInstance.gl.getUniformLocation(program, 'uMatrix')
-    ),
+    modelMatrix: <WebGLUniformLocation>GlInstance.gl.getUniformLocation(program, 'uMatrix'),
+  }
+}
+
+function getStandardAttributeLocations(program: WebGLProgram): AttributeLocations {
+  return {
+    position: GlInstance.gl.getAttribLocation(program, 'a_pos'),
   }
 }
 
@@ -69,9 +71,7 @@ function createShaderProgram(
   }
 
   GlInstance.gl.validateProgram(program)
-  if (
-    !GlInstance.gl.getProgramParameter(program, GlInstance.gl.VALIDATE_STATUS)
-  ) {
+  if (!GlInstance.gl.getProgramParameter(program, GlInstance.gl.VALIDATE_STATUS)) {
     GlInstance.gl.deleteProgram(program)
     return null
   }
@@ -88,6 +88,7 @@ function createShaderProgram(
 export class Shader {
   program: WebGLProgram | null
   uniformLocations?: UniformLocations
+  attributeLocations?: AttributeLocations
 
   constructor(vertexShaderSource: string, fragmentShaderSource: string) {
     this.program = createShaderProgram(vertexShaderSource, fragmentShaderSource)

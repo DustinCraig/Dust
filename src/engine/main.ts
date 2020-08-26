@@ -29,12 +29,14 @@ function drawSprite(sprite: Sprite) {
 
 function render(): void {
   const square: Sprite = new Sprite()
-  console.log('circle ', Circle)
   square.texture = Circle
+  square.shader.activate()
 
+  // const positionLocation: number = gl.getAttribLocation()
   /* Rendering of scene */
   GlInstance.clear()
-
+  gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
+  //  gl.enableVertexAttribArray()
   /**********************/
 }
 
@@ -46,10 +48,7 @@ function renderLoop(): void {
 /* Initialize properties */
 ;(() => {
   /* Setup/Use default shader */
-  let staticSpriteFragment: string = ''
-  let staticSpriteVertex: string = ''
-  console.log(window.location)
-  // const shader: Shader = new Shader()
+  // const shader: Shader =
 
   /* Default viewport max screen size? */
   GlInstance.setViewport(window.innerWidth, window.innerHeight)
@@ -62,9 +61,8 @@ function renderLoop(): void {
 
   /* Put a unit quad in the buffer */
   const quad: number[] = [0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1]
-  const quadBuffer: WebGLBuffer | null = gl.createBuffer()
-  if (!quadBuffer) return
-  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer)
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad), gl.STATIC_DRAW)
 
   /* Put a textured quad in the buffer  */
