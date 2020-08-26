@@ -27,3 +27,5 @@ export class GlInstance {
     this.gl.viewport(0, 0, w, h)
   }
 }
+
+export const gl = GlInstance.gl

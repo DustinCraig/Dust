@@ -1,12 +1,17 @@
 /* Shader generator */
 import { GlInstance } from '../../utils/gl'
-import { POSITION_ATTRIBUTE_LOCATION, TEXTURE_ATTRIBUTE_LOCATION } from './../../constants'
+import {
+  POSITION_ATTRIBUTE_LOCATION,
+  TEXTURE_ATTRIBUTE_LOCATION,
+} from './../../constants'
 import { UniformLocations } from './uniforms'
 import { mat3 } from '../math/matrix'
 
 function getStandardUniformLocations(program: WebGLProgram): UniformLocations {
   return {
-    modelMatrix: <WebGLUniformLocation>GlInstance.gl.getUniformLocation(program, 'uMatrix'),
+    modelMatrix: <WebGLUniformLocation>(
+      GlInstance.gl.getUniformLocation(program, 'uMatrix')
+    ),
   }
 }
 
@@ -64,7 +69,9 @@ function createShaderProgram(
   }
 
   GlInstance.gl.validateProgram(program)
-  if (!GlInstance.gl.getProgramParameter(program, GlInstance.gl.VALIDATE_STATUS)) {
+  if (
+    !GlInstance.gl.getProgramParameter(program, GlInstance.gl.VALIDATE_STATUS)
+  ) {
     GlInstance.gl.deleteProgram(program)
     return null
   }
