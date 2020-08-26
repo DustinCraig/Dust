@@ -6,12 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --mode development --hot"
+    "start": "webpack-dev-server --mode production --hot"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "file-loader": "^6.0.0",
     "http-server": "^0.12.3",
     "ts-loader": "^8.0.1",
     "typescript": "^3.9.7",

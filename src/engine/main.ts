@@ -5,6 +5,7 @@ import { GlInstance, gl } from '../utils/gl'
 import { Shader } from '../engine/shader/index'
 import { REFRESH_RATE } from '../constants'
 import { Sprite } from './sprite/index'
+import Circle from './circle.png'
 
 let rendering: boolean = false
 
@@ -28,7 +29,8 @@ function drawSprite(sprite: Sprite) {
 
 function render(): void {
   const square: Sprite = new Sprite()
-  square.texture = 'https://webglfundamentals.org/webgl/resources/star.jpg'
+  console.log('circle ', Circle)
+  square.texture = Circle
 
   /* Rendering of scene */
   GlInstance.clear()
@@ -44,6 +46,9 @@ function renderLoop(): void {
 /* Initialize properties */
 ;(() => {
   /* Setup/Use default shader */
+  let staticSpriteFragment: string = ''
+  let staticSpriteVertex: string = ''
+  console.log(window.location)
   // const shader: Shader = new Shader()
 
   /* Default viewport max screen size? */
