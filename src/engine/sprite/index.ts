@@ -1,8 +1,8 @@
 import { Shader } from './../shader/index'
 import { GlInstance } from './../../utils/gl'
 import { vec2 } from './../math/vector'
-import staticSpriteVertex from './staticSpriteVertex.glsl'
-import staticSpriteFragment from './staticSpriteFragment.glsl'
+import staticSpriteVertex from '../shader/staticSpriteVertex.glsl'
+import staticSpriteFragment from '../shader/staticSpriteFragment.glsl'
 
 /* Sprite needs a position, size and texture */
 
@@ -12,10 +12,14 @@ export class Sprite {
   private _size: vec2 = [0, 0]
   private _visible: boolean = true
   private _texture: string = ''
-  private _shader: Shader = new Shader(staticSpriteVertex, staticSpriteFragment)
-  private _textureInternal: WebGLTexture = <WebGLTexture>GlInstance.gl.createTexture()
+  private _shader: Shader | null = null
+  private _textureInternal: WebGLTexture = <WebGLTexture>(
+    GlInstance.gl.createTexture()
+  )
 
-  constructor() {}
+  constructor() {
+    this._shader = new Shader(staticSpriteVertex, staticSpriteFragment)
+  }
 
   private createTexture(): void {
     GlInstance.gl.bindTexture(GlInstance.gl.TEXTURE_2D, this._textureInternal)
@@ -51,7 +55,10 @@ export class Sprite {
       )
       const image: HTMLImageElement = new Image()
       image.onload = () => {
-        GlInstance.gl.bindTexture(GlInstance.gl.TEXTURE_2D, this._textureInternal)
+        GlInstance.gl.bindTexture(
+          GlInstance.gl.TEXTURE_2D,
+          this._textureInternal
+        )
         GlInstance.gl.texImage2D(
           GlInstance.gl.TEXTURE_2D,
           0,
@@ -64,6 +71,18 @@ export class Sprite {
       /* TODO: request CORS if not same origin */
       image.src = this._texture
     }
+  }
+
+  public setBufferData(): void {
+    const x1: number = this._position[0]
+    const x2: number = x1 + this._size[0]
+    const y1: number = this._position[1]
+    const y2: number = y1 + this._size[1]
+    GlInstance.gl.bufferData(
+      GlInstance.gl.ARRAY_BUFFER,
+      new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]),
+      GlInstance.gl.STATIC_DRAW
+    )
   }
 
   set size(s: vec2) {
@@ -111,6 +130,6 @@ export class Sprite {
     /* TODO: compile this? */
   }
   get shader() {
-    return this._shader
+    return this._shader ?? new Shader(staticSpriteVertex, staticSpriteFragment)
   }
 }

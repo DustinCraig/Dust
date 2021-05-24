@@ -5,6 +5,8 @@ import { GlInstance, gl } from '../utils/gl'
 import { Shader } from '../engine/shader/index'
 import { REFRESH_RATE } from '../constants'
 import { Sprite } from './sprite/index'
+import { mat4 } from '../engine/math/matrix'
+import { vec3 } from '../engine/math/vector'
 import Circle from './circle.png'
 
 let rendering: boolean = false
@@ -28,14 +30,17 @@ function drawSprite(sprite: Sprite) {
 }
 
 function render(): void {
+  GlInstance.clear()
+
   const square: Sprite = new Sprite()
+  square.size = [20, 20]
   square.texture = Circle
   square.shader.activate()
 
   // const positionLocation: number = gl.getAttribLocation()
   /* Rendering of scene */
-  GlInstance.clear()
   gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
+  square.setBufferData()
   gl.enableVertexAttribArray(
     square.shader.attributeLocations?.position
       ? square.shader.attributeLocations.position
@@ -51,7 +56,23 @@ function render(): void {
     0,
     0
   )
-  gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.quadBuffer)
+  // gl.bindBuffer(gl.ARRAY_BUFFER, GlInstance.texBuffer)
+  // gl.enableVertexAttribArray(
+  //   square.shader.attributeLocations?.textureCoordinates
+  //     ? square.shader.attributeLocations?.textureCoordinates
+  //     : 0
+  // )
+  // gl.vertexAttribPointer(
+  //   square.shader.attributeLocations?.textureCoordinates
+  //     ? square.shader.attributeLocations?.textureCoordinates
+  //     : 0,
+  //   2,
+  //   gl.FLOAT,
+  //   false,
+  //   0,
+  //   0
+  // )
+  gl.drawArrays(gl.TRIANGLES, 0, 6)
   /**********************/
 }
 
@@ -81,9 +102,7 @@ function renderLoop(): void {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad), gl.STATIC_DRAW)
 
   /* Put a textured quad in the buffer  */
-  // const texBuffer: WebGLBuffer | null = gl.createBuffer()
-  if (!texBuffer) return
-  gl.bindBuffer(GlInstance.gl.ARRAY_BUFFER, texBuffer)
+  gl.bindBuffer(GlInstance.gl.ARRAY_BUFFER, GlInstance.texBuffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(quad), gl.STATIC_DRAW)
 
   /* Begin the render loop */

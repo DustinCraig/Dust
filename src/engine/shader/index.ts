@@ -109,6 +109,7 @@ export class Shader {
   }
 
   activate(): void {
+    console.log('using program ', this.program)
     GlInstance.gl.useProgram(this.program)
   }
 
