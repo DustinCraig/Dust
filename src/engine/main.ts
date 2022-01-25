@@ -5,8 +5,6 @@ import { GlInstance, gl } from '../utils/gl'
 import { Shader } from '../engine/shader/index'
 import { REFRESH_RATE } from '../constants'
 import { Sprite } from './sprite/index'
-import { mat4 } from '../engine/math/matrix'
-import { vec3 } from '../engine/math/vector'
 import Circle from './circle.png'
 
 let rendering: boolean = false
